@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+/*
+  Geometría de la foto de la sorpresa (9:16).
+  La foto siempre cubre toda la pantalla; en pantallas horizontales se centra
+  a alto completo. --top y --h permiten colocar elementos sobre partes
+  concretas de la foto (pecho, caja) sin importar la proporción del equipo.
+*/
+.photo-geo {
+  --w: max(100vw, calc(100dvh * 9 / 16));
+  --h: calc(var(--w) * 16 / 9);
+  --top: calc((100dvh - var(--h)) * 0.4);
+}
+@media (min-aspect-ratio: 1/1) {
+  .photo-geo {
+    --w: calc(100dvh * 9 / 16);
+  }
+}
+@supports not (height: 100dvh) {
+  .photo-geo {
+    --w: max(100vw, calc(100vh * 9 / 16));
+    --top: calc((100vh - var(--h)) * 0.4);
+  }
+  @media (min-aspect-ratio: 1/1) {
+    .photo-geo {
+      --w: calc(100vh * 9 / 16);
+    }
+  }
+}
+
+.photo-stage {
+  position: absolute;
+  left: 50%;
+  top: var(--top);
+  width: var(--w);
+  height: var(--h);
+  margin-left: calc(var(--w) / -2);
+}
+
+/* Se ubica a una fracción (--y) de la altura de la foto */
+.at-photo {
+  top: calc(var(--top) + var(--h) * var(--y));
+}
+
+/* Línea tricolor de la marca: rojo, dorado y verde */
+.tricolor {
+  background: linear-gradient(
+    to right,
+    #9b1b1b 0 33.33%,
+    #e8a800 33.33% 66.66%,
+    #78ad28 66.66% 100%
+  );
+}
